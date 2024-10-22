@@ -19,7 +19,10 @@ limitations under the License.
 package main
 
 import (
+	"net/http"
+
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 const (
@@ -43,3 +46,14 @@ var (
 		Buckets:   append([]float64{.001, .003}, prometheus.DefBuckets...),
 	}, []string{"proto"})
 )
+
+func init() {
+	prometheus.MustRegister(requestCount)
+	prometheus.MustRegister(requestDuration)
+}
+
+func NewMetricsController() RouteMapper {
+	return func(mux *http.ServeMux) {
+		mux.Handle("GET /metrics", promhttp.Handler())
+	}
+}

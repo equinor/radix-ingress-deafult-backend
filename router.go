@@ -28,13 +28,11 @@ func NewRouter(handlers ...RouteMapper) *negroni.Negroni {
 }
 
 func Serve(ctx context.Context, port int, router http.Handler) error {
-
 	s := &http.Server{
 		Handler: router,
 		Addr:    fmt.Sprintf(":%d", port),
 	}
 	go func() {
-
 		if err := s.ListenAndServe(); !errors.Is(err, http.ErrServerClosed) {
 			log.Ctx(ctx).Fatal().Msg(err.Error())
 		}

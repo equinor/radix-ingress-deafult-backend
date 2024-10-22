@@ -12,20 +12,19 @@ import (
 	"github.com/urfave/negroni"
 )
 
-func initLogger(opts Config) {
-	logLevel, err := zerolog.ParseLevel(opts.LogLevel)
+func initLogger(level string, pretty bool) {
+	logLevel, err := zerolog.ParseLevel(level)
 	if err != nil {
 		logLevel = zerolog.InfoLevel
-		log.Warn().Msgf("Invalid log level '%s', fallback to '%s'", opts.LogLevel, logLevel.String())
+		log.Warn().Msgf("Invalid log level '%s', fallback to '%s'", level, logLevel.String())
 	}
 
 	if logLevel == zerolog.NoLevel {
 		logLevel = zerolog.InfoLevel
 	}
-	opts.LogLevel = logLevel.String()
 
 	var logWriter io.Writer = os.Stderr
-	if opts.LogPretty {
+	if pretty {
 		logWriter = &zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.TimeOnly}
 	}
 

@@ -5,7 +5,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 image:
-  repository: ghcr.io/equinor/ingress-deafult-backend
+  repository: ghcr.io/equinor/radix-ingress-deafult-backend
   tag: ""
   pullPolicy: Always
 

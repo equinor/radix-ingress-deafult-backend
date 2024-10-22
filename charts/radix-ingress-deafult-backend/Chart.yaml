@@ -1,0 +1,15 @@
+apiVersion: v2
+name: ingress-deafult-backend
+icon: https://radix.equinor.com/images/logos/logo.svg
+description: Simple Prometheus Proxy to expose a simple metric
+version: 1.9.1
+appVersion: 1.9.1
+kubeVersion: '>=1.24.0'
+keywords:
+  - radix
+home: radix.equinor.com
+sources:
+  - https://github.com/equinor/ingress-deafult-backend
+maintainers:
+  - name: Omnia Radix
+    email: Radix@StatoilSRM.onmicrosoft.com

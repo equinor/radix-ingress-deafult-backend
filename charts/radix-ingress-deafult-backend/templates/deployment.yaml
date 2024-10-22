@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "prometheus-proxy.fullname" . }}
+  name: {{ template "default-backend.fullname" . }}
   namespace: {{ .Release.Namespace | quote }}
   labels:
-    {{- include "prometheus-proxy.labels" . | nindent 4 }}
+    {{- include "default-backend.labels" . | nindent 4 }}
   {{- with .Values.deploymentAnnotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -13,11 +13,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      {{- include "prometheus-proxy.selectorLabels" . | nindent 6 }}
+      {{- include "default-backend.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "prometheus-proxy.selectorLabels" . | nindent 8 }}
+        {{- include "default-backend.selectorLabels" . | nindent 8 }}
       {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
       {{- end }}

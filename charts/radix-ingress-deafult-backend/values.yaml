@@ -14,10 +14,11 @@ deploymentAnnotations: {}
 # Extra pod labels
 podLabels: {}
 
-# Logging
-logLevel: info
+logLevel: "info"
 logPretty: "False"
-prometheusUrl: ""
+port: "8000"
+errorFilesPath: "./www"
+defaultResponseFormat: "text/html"
 
 resources:
   limits:

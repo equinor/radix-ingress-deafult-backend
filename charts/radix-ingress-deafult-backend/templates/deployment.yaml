@@ -53,8 +53,12 @@ spec:
               value: {{ .Values.logPretty | quote }}
             - name: LOG_LEVEL
               value: {{ .Values.logLevel | quote }}
-            - name: PROMETHEUS
-              value: {{ .Values.prometheusUrl | quote }}
+            - name: ERROR_FILES_PATH
+              value: {{ .Values.errorFilesPath | quote }}
+            - name: PORT
+              value: {{ .Values.port | quote }}
+            - name: DEFAULT_RESPONSE_FORMAT
+              value: {{ .Values.defaultResponseFormat | quote }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           securityContext:
@@ -64,3 +68,7 @@ spec:
             capabilities:
               drop:
                 - ALL
+          readinessProbe:
+            httpGet:
+              port: {{ .Values.port | quote }}
+              path: /healthz

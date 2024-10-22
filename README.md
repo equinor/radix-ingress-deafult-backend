@@ -1,6 +1,6 @@
 # Radix Ingress Defailt Backend
 
-Responds with the default backend based on namespace header
+Responds with the default backend based on app-name in parsed from namespace header
 
 ## How we work
 

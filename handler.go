@@ -141,7 +141,9 @@ func findFile(files ...string) (string, error) {
 
 func logDebugHeaders(r *http.Request) {
 	headers := r.Header.Clone()
-	headers.Del("Authorization")
+	if headers.Get("Authorization") != "" {
+		headers.Set("Authorization", "***removed***")
+	}
 
 	zerolog.Ctx(r.Context()).Trace().Interface("headers", headers).Msg("Request headers")
 }

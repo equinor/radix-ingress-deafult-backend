@@ -21,7 +21,7 @@ func NewRouter(handlers ...RouteMapper) *negroni.Negroni {
 
 	return negroni.New(
 		negroni.NewRecovery(),
-		NewZerologRequestIdMiddleware(),
+		NewZerologRequestIdMiddleware(true),
 		NewLoggingMiddleware(),
 		negroni.Wrap(mux),
 	)

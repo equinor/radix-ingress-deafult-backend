@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/felixge/httpsnoop"
+	"github.com/rs/xid"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/urfave/negroni"
@@ -45,5 +46,21 @@ func NewLoggingMiddleware() negroni.HandlerFunc {
 			Int("status_code", metrics.Code).
 			Int64("response_size", metrics.Written).
 			Msg("Handled request")
+	}
+}
+
+func NewZerologRequestIdMiddleware(useNginxRequestId bool) negroni.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+		var requestId string
+		if useNginxRequestId {
+			requestId = r.Header.Get(RequestId)
+		} else {
+			requestId = xid.New().String()
+		}
+
+		logger := log.Ctx(r.Context()).With().Str("request_id", requestId).Logger()
+		r = r.WithContext(logger.WithContext(r.Context()))
+
+		next(w, r)
 	}
 }

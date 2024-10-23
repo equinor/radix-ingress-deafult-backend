@@ -140,15 +140,8 @@ func findFile(files ...string) (string, error) {
 }
 
 func logDebugHeaders(r *http.Request) {
-	zerolog.Ctx(r.Context()).Trace().
-		Str("FormatHeader", r.Header.Get(FormatHeader)).
-		Str("CodeHeader", r.Header.Get(CodeHeader)).
-		Str("ContentType", r.Header.Get(ContentType)).
-		Str("OriginalURI", r.Header.Get(OriginalURI)).
-		Str("Namespace", r.Header.Get(Namespace)).
-		Str("IngressName", r.Header.Get(IngressName)).
-		Str("ServiceName", r.Header.Get(ServiceName)).
-		Str("ServicePort", r.Header.Get(ServicePort)).
-		Str("RequestId", r.Header.Get(RequestId)).
-		Msg("Request headers")
+	headers := r.Header.Clone()
+	headers.Del("Authorization")
+
+	zerolog.Ctx(r.Context()).Trace().Interface("headers", headers).Msg("Request headers")
 }

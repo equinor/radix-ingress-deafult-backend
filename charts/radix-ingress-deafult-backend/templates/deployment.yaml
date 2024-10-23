@@ -46,7 +46,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ default .Chart.Version .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: {{ .Values.port | quote }}
+            - containerPort: {{ .Values.port | int }}
               name: http
           env:
             - name: LOG_PRETTY
@@ -70,5 +70,5 @@ spec:
                 - ALL
           readinessProbe:
             httpGet:
-              port: {{ .Values.port | quote }}
+              port: {{ .Values.port | int }}
               path: /healthz

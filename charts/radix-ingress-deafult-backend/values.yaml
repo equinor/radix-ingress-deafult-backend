@@ -2,10 +2,10 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 nameOverride: ""
-fullnameOverride: ""
+fullnameOverride: "radix-default-backend"
 
 image:
-  repository: ghcr.io/equinor/radix-ingress-deafult-backend
+  repository: ghcr.io/equinor/radix-ingress-default-backend
   tag: ""
   pullPolicy: Always
 
@@ -23,10 +23,10 @@ defaultResponseFormat: "text/html"
 resources:
   limits:
     cpu: 50m
-    memory: 10Mi
+    memory: 50Mi
   requests:
     cpu: 50m
-    memory: 10Mi
+    memory: 50Mi
 
 # Affinity for pod scheduling
 affinity: {}

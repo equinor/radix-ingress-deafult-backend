@@ -18,12 +18,6 @@ func main() {
 
 	log.Info().Interface("config", config).Msg("Starting")
 
-	err := Run(ctx, config)
-
-	log.Err(err).Msg("Terminated")
-}
-
-func Run(ctx context.Context, config Config) error {
 	router := NewRouter(
 		NewBackendController(config.ErrorFilesPath, config.DefaultFormat),
 		NewMetricsController(),
@@ -31,7 +25,9 @@ func Run(ctx context.Context, config Config) error {
 	)
 
 	log.Ctx(ctx).Info().Msgf("Listening on http://localhost:%d", config.Port)
-	return Serve(ctx, config.Port, router)
+
+	err := Serve(ctx, config.Port, router)
+	log.Err(err).Msg("Terminated")
 }
 
 func NewHealthzController() RouteMapper {

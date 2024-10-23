@@ -8,4 +8,5 @@ spec:
     {{- include "default-backend.selectorLabels" . | nindent 6 }}
   ports:
     - name: http
-      port: {{ .Values.port | int }}
+      targetPort: http
+      port: 80

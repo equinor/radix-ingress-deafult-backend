@@ -85,6 +85,9 @@ func NewBackendController(path, defaultFormat string) RouteMapper {
 			appNs := r.Header.Get(Namespace)
 			appNameParts := strings.Split(appNs, "-")
 			appName := strings.Join(appNameParts[:len(appNameParts)-1], "-")
+			if appName == "" {
+				appName = "default"
+			}
 
 			if !strings.HasPrefix(ext, ".") {
 				ext = "." + ext

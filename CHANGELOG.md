@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1 (2024-10-24)
+
+**Full Changelog**: https://github.com/equinor/radix-ingress-default-backend/compare/v1.0.0...v1.0.1
+
 ## [1.0.0](https://github.com/equinor/radix-ingress-default-backend/compare/v0.2.0...v1.0.0) (2024-10-24)
 
 

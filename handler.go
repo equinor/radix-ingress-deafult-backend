@@ -50,11 +50,11 @@ func NewBackendController() RouteMapper {
 
 			logDebugHeaders(r)
 
-			errCode := r.Header.Get(CodeHeader)
-			code, err := strconv.Atoi(errCode)
+			statusCode := r.Header.Get(CodeHeader)
+			code, err := parseErrorCode(statusCode)
 			if err != nil {
 				code = 404
-				logger.Warn().Err(err).Str("code", errCode).Msg("unexpected error reading return code")
+				logger.Warn().Err(err).Int("code", code).Msgf("unexpected error reading return code: %s", statusCode)
 			}
 			scode := strconv.Itoa(code)
 			w.WriteHeader(code)
@@ -92,6 +92,19 @@ func NewBackendController() RouteMapper {
 			_, _ = w.Write(htmlFile)
 		})
 	}
+}
+
+func parseErrorCode(errCode string) (int, error) {
+	if errCode == "" {
+		return 404, nil
+	}
+
+	parsedCode, err := strconv.Atoi(errCode)
+	if err != nil {
+		return 404, err
+	}
+
+	return parsedCode, nil
 }
 
 func getHtmlFile(namespace string) string {

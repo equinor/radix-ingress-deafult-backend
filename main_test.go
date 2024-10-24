@@ -42,8 +42,13 @@ func sendRequest(url, namespace, code string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	req.Header.Add("X-Namespace", namespace)
-	req.Header.Add("X-Code", code)
+
+	if namespace != "" {
+		req.Header.Add("X-Namespace", namespace)
+	}
+	if code != "" {
+		req.Header.Add("X-Code", code)
+	}
 	regularRequest, err := http.DefaultClient.Do(req)
 	defer regularRequest.Body.Close()
 

@@ -39,4 +39,24 @@ entries:
     urls:
     - https://github.com/equinor/radix-ingress-default-backend/releases/download/radix-ingress-deafult-backend-0.2.0/radix-ingress-deafult-backend-0.2.0.tgz
     version: 0.2.0
-generated: "2024-10-24T09:01:35.313500508Z"
+  radix-ingress-default-backend:
+  - apiVersion: v2
+    appVersion: 1.0.4
+    created: "2024-10-24T11:02:59.777571467Z"
+    description: Simple Prometheus Proxy to expose a simple metric
+    digest: 5a67bf61b039097628a3c21bf2fbc9765792e25382fa8825b83072aa68aba3e5
+    home: radix.equinor.com
+    icon: https://radix.equinor.com/images/logos/logo.svg
+    keywords:
+    - radix
+    kubeVersion: '>=1.24.0'
+    maintainers:
+    - email: Radix@StatoilSRM.onmicrosoft.com
+      name: Omnia Radix
+    name: radix-ingress-default-backend
+    sources:
+    - https://github.com/equinor/radix-ingress-default-backend
+    urls:
+    - https://github.com/equinor/radix-ingress-default-backend/releases/download/radix-ingress-default-backend-1.0.4/radix-ingress-default-backend-1.0.4.tgz
+    version: 1.0.4
+generated: "2024-10-24T11:02:59.777585403Z"

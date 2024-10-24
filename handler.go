@@ -144,6 +144,12 @@ func logDebugHeaders(r *http.Request) {
 	if headers.Get("Authorization") != "" {
 		headers.Set("Authorization", "***removed***")
 	}
+	if headers.Get("Cookie") != "" {
+		headers.Set("Cookie", "***removed***")
+	}
+	if headers.Get("Cookie2") != "" {
+		headers.Set("Cookie2", "***removed***")
+	}
 
 	zerolog.Ctx(r.Context()).Trace().Interface("headers", headers).Msg("Request headers")
 }

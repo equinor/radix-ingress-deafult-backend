@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/equinor/radix-ingress-default-backend/compare/v1.0.3...v1.0.4) (2024-10-24)
+
+
+### Bug Fixes
+
+* rename deafult-backend to default-backend ([9bd04c8](https://github.com/equinor/radix-ingress-default-backend/commit/9bd04c8db260fd07e54436c5918174e780724df0))
+
 ## [1.0.3](https://github.com/equinor/radix-ingress-default-backend/compare/v1.0.2...v1.0.3) (2024-10-24)
 
 

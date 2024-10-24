@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/equinor/radix-ingress-default-backend/compare/v1.0.2...v1.0.3) (2024-10-24)
+
+
+### Bug Fixes
+
+* skip adding existing release ([b824a63](https://github.com/equinor/radix-ingress-default-backend/commit/b824a630e22e46aa1ba495c2ba9fda8e85ab69ca))
+
 ## [1.0.2](https://github.com/equinor/radix-ingress-default-backend/compare/v1.0.1...v1.0.2) (2024-10-24)
 
 

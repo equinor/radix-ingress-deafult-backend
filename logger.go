@@ -39,7 +39,7 @@ func initLogger(level string, pretty bool) {
 func NewLoggingMiddleware() negroni.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request, next http.HandlerFunc) {
 		metrics := httpsnoop.CaptureMetrics(next, writer, request)
-		log.Info().
+		log.Ctx(request.Context()).Info().
 			Str("path", request.URL.Path).
 			Str("referer", request.Referer()).
 			Dur("duration", metrics.Duration).

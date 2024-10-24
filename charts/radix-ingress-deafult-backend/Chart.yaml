@@ -2,8 +2,8 @@ apiVersion: v2
 name: radix-ingress-deafult-backend
 icon: https://radix.equinor.com/images/logos/logo.svg
 description: Simple Prometheus Proxy to expose a simple metric
-version: 0.2.0
-appVersion: 0.2.0
+version: 1.0.0
+appVersion: 1.0.0
 kubeVersion: '>=1.24.0'
 keywords:
   - radix

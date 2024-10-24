@@ -1,14 +1,11 @@
 package main
 
 import (
-	"fmt"
-	"io"
-	"mime"
+	"embed"
+	_ "embed"
 	"net/http"
-	"os"
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/rs/zerolog"
 )
@@ -42,36 +39,16 @@ const (
 	RequestId = "X-Request-ID"
 )
 
-func NewBackendController(path, defaultFormat string) RouteMapper {
-	defaultExts, err := mime.ExtensionsByType(defaultFormat)
-	if err != nil || len(defaultExts) == 0 {
-		panic("couldn't get file extension for default format")
-	}
-	defaultExt := defaultExts[0]
+//go:embed www/*.html
+var www embed.FS
+
+func NewBackendController() RouteMapper {
 
 	return func(mux *http.ServeMux) {
 		mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 			logger := zerolog.Ctx(r.Context())
-			start := time.Now()
-			ext := defaultExt
 
 			logDebugHeaders(r)
-			format := r.Header.Get(FormatHeader)
-			if format == "" {
-				format = defaultFormat
-				logger.Warn().Msgf("format not specified. Using %v", format)
-			}
-
-			cext, err := mime.ExtensionsByType(format)
-			if err != nil {
-				logger.Error().Msgf("unexpected error reading media type extension: %v. Using %v", err, ext)
-				format = defaultFormat
-			} else if len(cext) == 0 {
-				logger.Warn().Msgf("couldn't get media type extension. Using %v", ext)
-			} else {
-				ext = cext[0]
-			}
-			w.Header().Set(ContentType, format)
 
 			errCode := r.Header.Get(CodeHeader)
 			code, err := strconv.Atoi(errCode)
@@ -82,61 +59,53 @@ func NewBackendController(path, defaultFormat string) RouteMapper {
 			scode := strconv.Itoa(code)
 			w.WriteHeader(code)
 
-			appNs := r.Header.Get(Namespace)
-			appNameParts := strings.Split(appNs, "-")
-			appName := strings.Join(appNameParts[:len(appNameParts)-1], "-")
-			if appName == "" {
-				appName = "default"
-			}
+			format := r.Header.Get(FormatHeader)
+			accepts := r.Header.Get("Accept")
+			acceptsHtml := strings.Contains(format, "text/html") || format == "" ||
+				strings.Contains(accepts, "text/html") ||
+				strings.Contains(accepts, "*/*")
 
-			if !strings.HasPrefix(ext, ".") {
-				ext = "." + ext
-			}
-			// special case for compatibility
-			if ext == ".htm" {
-				ext = ".html"
-			}
+			w.Header().Set("X-Content-Type-Options", "nosniff")
 
-			file, err := findFile(
-				fmt.Sprintf("%s/%s/%d%s", path, appName, code, ext),
-				fmt.Sprintf("%s/%s/%cxx%s", path, appName, scode[0], ext),
-				fmt.Sprintf("%s/%d%s", path, code, ext),
-				fmt.Sprintf("%s/%cxx%s", path, scode[0], ext),
-			)
-			if err != nil {
-				logger.Trace().Err(err).Msg("no matching file found")
-				http.NotFound(w, r)
+			if !acceptsHtml {
+				w.Header().Set(ContentType, "text/plain")
+				_, _ = w.Write([]byte(scode))
+				logger.Warn().Msgf("format %s is unknown (not unspecified or html)", format)
 				return
 			}
 
-			f, err := os.Open(file)
+			w.Header().Set(ContentType, "text/html; charset=utf-8")
+			filename := getHtmlFile(r.Header.Get(Namespace))
+			htmlFile, err := www.ReadFile("www/" + filename)
 			if err != nil {
-				logger.Trace().Err(err).Msg("unexpected error opening file")
-				http.NotFound(w, r)
-				return
+				filename = "default.html"
+				htmlFile, err = www.ReadFile("www/" + filename)
+
+				if err != nil {
+					logger.Error().Err(err).Msg("unable to serve error page")
+					http.NotFound(w, r)
+					return
+				}
 			}
-			defer f.Close()
-			logger.Trace().Str("file", file).Int("code", code).Str("format", format).Msg("serving custom error response")
-			_, _ = io.Copy(w, f)
 
-			duration := time.Now().Sub(start).Seconds()
-
-			proto := strconv.Itoa(r.ProtoMajor)
-			proto = fmt.Sprintf("%s.%s", proto, strconv.Itoa(r.ProtoMinor))
-
-			requestCount.WithLabelValues(proto).Inc()
-			requestDuration.WithLabelValues(proto).Observe(duration)
+			logger.Trace().Str("file", filename).Msg("serving custom error response")
+			_, _ = w.Write(htmlFile)
 		})
 	}
 }
 
-func findFile(files ...string) (string, error) {
-	for _, file := range files {
-		if _, err := os.Stat(file); err == nil {
-			return file, nil
-		}
+func getHtmlFile(namespace string) string {
+	if namespace == "" {
+		return "default.html"
 	}
-	return "", os.ErrNotExist
+
+	appNameParts := strings.Split(namespace, "-")
+	if len(appNameParts) < 2 {
+		return "default.html"
+	}
+
+	appName := strings.Join(appNameParts[:len(appNameParts)-1], "-")
+	return appName + ".html"
 }
 
 func logDebugHeaders(r *http.Request) {

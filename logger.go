@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -46,6 +47,10 @@ func NewLoggingMiddleware() negroni.HandlerFunc {
 			Int("status_code", metrics.Code).
 			Int64("response_size", metrics.Written).
 			Msg("Handled request")
+
+		proto := fmt.Sprintf("%d.%d", request.ProtoMajor, request.ProtoMinor)
+		requestCount.WithLabelValues(proto).Inc()
+		requestDuration.WithLabelValues(proto).Observe(metrics.Duration.Seconds())
 	}
 }
 

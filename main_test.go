@@ -12,7 +12,7 @@ import (
 import main "github.com/equinor/radix-ingress-default-backend"
 
 func TestRun(t *testing.T) {
-	router := main.NewRouter(main.NewBackendController("./www", "text/html"))
+	router := main.NewRouter(main.NewBackendController())
 	server := httptest.NewServer(router)
 	defer server.Close()
 

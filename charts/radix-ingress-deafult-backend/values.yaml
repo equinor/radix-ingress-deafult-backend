@@ -17,8 +17,6 @@ podLabels: {}
 logLevel: "info"
 logPretty: "False"
 port: "8000"
-errorFilesPath: "/www"
-defaultResponseFormat: "text/html"
 
 resources:
   limits:

@@ -19,8 +19,7 @@ RUN go build -ldflags "-s -w" -a -installsuffix cgo -o /radix-ingress-default-ba
 
 # Final stage, ref https://github.com/GoogleContainerTools/distroless/blob/main/base/README.md for distroless
 FROM gcr.io/distroless/static
-COPY www /www
-COPY mime.types /etc/
+
 COPY --from=builder /radix-ingress-default-backend /radix-ingress-default-backend
 
 EXPOSE 8000

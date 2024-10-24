@@ -19,7 +19,7 @@ func main() {
 	log.Info().Interface("config", config).Msg("Starting")
 
 	router := NewRouter(
-		NewBackendController(config.ErrorFilesPath, config.DefaultFormat),
+		NewBackendController(),
 		NewMetricsController(),
 		NewHealthzController(),
 	)

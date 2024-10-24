@@ -50,6 +50,9 @@ func sendRequest(url, namespace, code string) (string, error) {
 		req.Header.Add("X-Code", code)
 	}
 	regularRequest, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return "", err
+	}
 	defer regularRequest.Body.Close()
 
 	bytes, err := io.ReadAll(regularRequest.Body)

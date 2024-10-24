@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://github.com/equinor/radix-ingress-default-backend/compare/v1.0.4...v1.1.0) (2024-10-24)
+
+
+### Features
+
+* Update description ([4d3012b](https://github.com/equinor/radix-ingress-default-backend/commit/4d3012b5f246e493ec4101df87a28863e1390424))
+* Update readme,license and security documentation ([5ce458a](https://github.com/equinor/radix-ingress-default-backend/commit/5ce458a585daea41043790172a0f984cdbf5545a))
+
+
+### Bug Fixes
+
+* dont parse empty strings ([ca60dd2](https://github.com/equinor/radix-ingress-default-backend/commit/ca60dd2d734147b440a8ce8ec7018577df29bb78))
+
 ## [1.0.4](https://github.com/equinor/radix-ingress-default-backend/compare/v1.0.3...v1.0.4) (2024-10-24)
 
 

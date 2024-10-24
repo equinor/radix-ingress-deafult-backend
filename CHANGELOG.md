@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/equinor/radix-ingress-default-backend/compare/v1.0.1...v1.0.2) (2024-10-24)
+
+
+### Bug Fixes
+
+* rename helm chart ([aaf6f50](https://github.com/equinor/radix-ingress-default-backend/commit/aaf6f5086eb437b029b88372b336e47bba93978d))
+
 ## 1.0.1 (2024-10-24)
 
 **Full Changelog**: https://github.com/equinor/radix-ingress-default-backend/compare/v1.0.0...v1.0.1

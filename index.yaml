@@ -41,6 +41,25 @@ entries:
     version: 0.2.0
   radix-ingress-default-backend:
   - apiVersion: v2
+    appVersion: 1.1.0
+    created: "2024-10-24T11:53:25.809750121Z"
+    description: A ingress-nginx default backend for Radix
+    digest: 5f366ecc413625ef79bd796c0fbbd11967130461205d94c74555232081a3ac86
+    home: radix.equinor.com
+    icon: https://radix.equinor.com/images/logos/logo.svg
+    keywords:
+    - radix
+    kubeVersion: '>=1.24.0'
+    maintainers:
+    - email: Radix@StatoilSRM.onmicrosoft.com
+      name: Omnia Radix
+    name: radix-ingress-default-backend
+    sources:
+    - https://github.com/equinor/radix-ingress-default-backend
+    urls:
+    - https://github.com/equinor/radix-ingress-default-backend/releases/download/radix-ingress-default-backend-1.1.0/radix-ingress-default-backend-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v2
     appVersion: 1.0.4
     created: "2024-10-24T11:02:59.777571467Z"
     description: Simple Prometheus Proxy to expose a simple metric
@@ -59,4 +78,4 @@ entries:
     urls:
     - https://github.com/equinor/radix-ingress-default-backend/releases/download/radix-ingress-default-backend-1.0.4/radix-ingress-default-backend-1.0.4.tgz
     version: 1.0.4
-generated: "2024-10-24T11:02:59.777585403Z"
+generated: "2024-10-24T11:53:25.809761081Z"

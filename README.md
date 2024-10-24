@@ -1,4 +1,4 @@
-[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-green.svg)](https://conventionalcommits.org)
 [![Release](https://github.com/equinor/radix-ingress-default-backend/actions/workflows/release-please.yaml/badge.svg?branch=main&event=push)](https://github.com/equinor/radix-ingress-default-backend/actions/workflows/release-please.yaml)
 [![SCM Compliance](https://scm-compliance-api.radix.equinor.com/repos/equinor/radix-ingress-default-backend/badge)](https://developer.equinor.com/governance/scm-policy/)
 

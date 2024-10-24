@@ -17,6 +17,7 @@ func TestRun(t *testing.T) {
 	defer server.Close()
 
 	req, err := http.NewRequest(http.MethodGet, server.URL, nil)
+	require.NoError(t, err)
 	req.Header.Add("X-Namespace", "hello-world-dev")
 	req.Header.Add("X-Code", "503")
 	regularRequest, err := http.DefaultClient.Do(req)
@@ -28,6 +29,7 @@ func TestRun(t *testing.T) {
 	assert.Contains(t, string(bytes), "Server error - Radix")
 
 	req, err = http.NewRequest(http.MethodGet, server.URL, nil)
+	require.NoError(t, err)
 	req.Header.Add("X-Namespace", "equinor-web-sites-dev")
 	req.Header.Add("X-Code", "503")
 	equinorRequst, err := http.DefaultClient.Do(req)

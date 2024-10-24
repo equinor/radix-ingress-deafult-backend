@@ -16,27 +16,40 @@ func TestRun(t *testing.T) {
 	server := httptest.NewServer(router)
 	defer server.Close()
 
-	req, err := http.NewRequest(http.MethodGet, server.URL, nil)
+	body, err := sendRequest(server.URL, "hello-world-dev", "503")
 	require.NoError(t, err)
-	req.Header.Add("X-Namespace", "hello-world-dev")
-	req.Header.Add("X-Code", "503")
+	assert.Contains(t, body, "Server error - Radix")
+
+	body, err = sendRequest(server.URL, "equinor-web-sites-dev", "503")
+	require.NoError(t, err)
+	assert.Contains(t, body, "Something went wrong - Equinor")
+
+	body, err = sendRequest(server.URL, "", "")
+	require.NoError(t, err)
+	assert.Contains(t, body, "Server error - Radix")
+
+	body, err = sendRequest(server.URL+"/hello-world", "", "")
+	require.NoError(t, err)
+	assert.Contains(t, body, "Server error - Radix")
+
+	body, err = sendRequest(server.URL+"/hello-world", "default", "503")
+	require.NoError(t, err)
+	assert.Contains(t, body, "Server error - Radix")
+}
+
+func sendRequest(url, namespace, code string) (string, error) {
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		return "", err
+	}
+	req.Header.Add("X-Namespace", namespace)
+	req.Header.Add("X-Code", code)
 	regularRequest, err := http.DefaultClient.Do(req)
-	require.NoError(t, err)
 	defer regularRequest.Body.Close()
 
 	bytes, err := io.ReadAll(regularRequest.Body)
-	require.NoError(t, err)
-	assert.Contains(t, string(bytes), "Server error - Radix")
-
-	req, err = http.NewRequest(http.MethodGet, server.URL, nil)
-	require.NoError(t, err)
-	req.Header.Add("X-Namespace", "equinor-web-sites-dev")
-	req.Header.Add("X-Code", "503")
-	equinorRequst, err := http.DefaultClient.Do(req)
-	require.NoError(t, err)
-	defer equinorRequst.Body.Close()
-
-	bytes, err = io.ReadAll(equinorRequst.Body)
-	require.NoError(t, err)
-	assert.Contains(t, string(bytes), "Something went wrong - Equinor")
+	if err != nil {
+		return "", err
+	}
+	return string(bytes), nil
 }

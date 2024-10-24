@@ -1,7 +1,7 @@
 apiVersion: v2
 name: radix-ingress-default-backend
 icon: https://radix.equinor.com/images/logos/logo.svg
-description: Simple Prometheus Proxy to expose a simple metric
+description: A ingress-nginx default backend for Radix
 version: 1.0.4
 appVersion: 1.0.4
 kubeVersion: '>=1.24.0'
